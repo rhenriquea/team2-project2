@@ -76,7 +76,7 @@ export default {
   },
 
   async fetch() {
-    const { data } = await this.$axios.$get('/app/users')
+    const { data } = await this.$axios.$get('/api/v1/users')
     this.people = data
   },
 

@@ -56,7 +56,7 @@ export default {
   },
 
   async fetch() {
-    const { data } = await this.$axios.$get('/app/users')
+    const { data } = await this.$axios.$get('/api/v1/users')
     this.person = data.find((p) => p.id.toString() === this.$route.params.id)
   },
 }

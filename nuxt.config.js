@@ -50,7 +50,7 @@ export default {
     customVariables: ['~/assets/variables.scss'],
   },
 
-  serverMiddleware: [{ path: '/app', handler: '~/server/app.js' }],
+  serverMiddleware: [{ path: '/api/v1', handler: '~/server/app.js' }],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
