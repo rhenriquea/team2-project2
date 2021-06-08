@@ -1,10 +1,10 @@
 const { Router } = require('express')
 
-const data = require('../data/users.json')
+const data = require('../data/movies.json')
 
 const routes = Router()
 
-routes.get('/users', (req, res) => {
+routes.get('/movies', (req, res) => {
   res.json({ data })
 })
 

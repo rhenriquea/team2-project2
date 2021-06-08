@@ -1,22 +1,16 @@
 <template>
-  <v-row justify="center" align="center">
-    <v-col v-for="person in people" :key="person.id" cols="12" sm="8" md="4">
-      <MovieCard />
-    </v-col>
-  </v-row>
+  <FeaturedMovie :item="item" :allow-edit="true" />
 </template>
 
 <script>
-import MovieCard from '~/components/MovieCard'
+import FeaturedMovie from '~/components/FeaturedMovie'
 
 export default {
   components: {
-    MovieCard,
+    FeaturedMovie,
   },
   data() {
     return {
-      rating: 3,
-      people: [],
       item: {
         backdrop_path: '/3lBDg3i6nn5R2NKFCJ6oKyUo2j5.jpg',
         created_by: [
@@ -149,13 +143,7 @@ export default {
 
   async fetch() {
     const { data } = await this.$axios.$get('/api/v1/movies')
-    this.people = data
-  },
-
-  activated() {
-    if (this.$fetchState.timestamp <= Date.now() - 30000) {
-      this.$fetch()
-    }
+    this.person = data.find((p) => p.id.toString() === this.$route.params.id)
   },
 }
 </script>

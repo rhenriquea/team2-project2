@@ -2,10 +2,12 @@ export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
+  baseUrl: '/movies',
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - team2-project2',
-    title: 'team2-project2',
+    titleTemplate: '%s - Movie Management System',
+    title: 'Moov',
     htmlAttrs: {
       lang: 'en',
     },
@@ -48,6 +50,7 @@ export default {
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
+    dark: true,
   },
 
   serverMiddleware: [{ path: '/api/v1', handler: '~/server/app.js' }],

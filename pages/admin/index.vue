@@ -1,9 +1,12 @@
 <template>
-  <v-row justify="center" align="center">
-    <v-col v-for="person in people" :key="person.id" cols="12" sm="8" md="4">
-      <MovieCard />
-    </v-col>
-  </v-row>
+  <div>
+    <h1 class="white--text">My Movies</h1>
+    <v-row justify="center" align="center">
+      <v-col v-for="person in people" :key="person.id" cols="12" sm="8" md="4">
+        <MovieCard />
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script>
