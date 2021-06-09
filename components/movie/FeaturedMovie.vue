@@ -1,52 +1,53 @@
 <template>
-  <v-card dark>
+  <div v-if="movie">
     <section
       class="featured--cover"
       :style="{
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        backgroundImage: `url(https://image.tmdb.org/t/p/original/${item.backdrop_path})`,
+        backgroundImage: `url(${movie.cover})`,
       }"
     >
       <div class="featured--horizontal-transparency">
         <div class="featured--vertical-transparency">
-          <v-card-title class="display-3 font-weight-bold pa-0">{{
-            item.original_name
-          }}</v-card-title>
+          <h1 class="featured--title">
+            {{ movie.title }}
+          </h1>
 
-          <v-rating
-            v-model="rating"
-            background-color="pink lighten-3"
-            color="pink"
-            small
-          ></v-rating>
           <div class="featured--genres">
             <strong>Genres:</strong>
-            {{ genres }}
+            {{ movie.genres.toString().replaceAll(',', ', ') }}
+          </div>
+          <div class="featured--genres">
+            <strong>Actors:</strong>
+            {{ movie.actors.toString().replaceAll(',', ', ') }}
           </div>
 
-          <div class="featured--description">{{ description }}</div>
+          <div class="featured--description">{{ movie.description }}</div>
           <div class="featured--buttons">
             <span v-if="allowEdit">
-              <v-btn outlined class="mt-5"
-                ><v-icon>mdi-pencil</v-icon> Edit</v-btn
-              >
-              <v-btn outlined class="mt-5"
-                ><v-icon>mdi-delete</v-icon> Delete</v-btn
-              >
+              <AnchorButton
+                :to="`admin/movie/${movie.id}`"
+                icon="edit"
+                label="Edit"
+              />
+              <CustomButton type="button" label="Delete" />
             </span>
           </div>
         </div>
       </div>
     </section>
-  </v-card>
+  </div>
 </template>
->
 
 <script>
+import AnchorButton from '../forms/AnchorButton'
+import CustomButton from '../forms/CustomButton'
+
 export default {
+  components: { AnchorButton, CustomButton },
   props: {
-    item: null,
+    movie: undefined,
     allowEdit: {
       type: Boolean,
       default: false,
@@ -77,45 +78,53 @@ export default {
 <style lang="scss">
 .featured {
   &--cover {
-    @media (max-width: 760px) {
-      height: 90vh;
-    }
+    height: 75vh;
   }
 
   &--horizontal-transparency {
-    width: inherit;
-    height: inherit;
     background: linear-gradient(to top, #111 10%, transparent 90%);
+    height: inherit;
+    width: inherit;
   }
 
   &--vertical-transparency {
-    width: inherit;
-    height: inherit;
     background: linear-gradient(to right, #111 30%, transparent 70%);
     display: flex;
     flex-direction: column;
+    height: inherit;
     justify-content: center;
-    padding-left: 30px;
     padding-bottom: 100px;
+    padding-left: 30px;
     padding-top: 70px;
+    width: inherit;
+  }
+
+  &--title {
+    font-size: 4em;
   }
 
   &--description {
-    margin-top: 15px;
     color: #999;
+    margin-top: 15px;
     max-width: 40%;
 
     @media (max-width: 760px) {
       font-size: 14px;
-      max-width: 100%;
       margin-right: 30px;
+      max-width: 100%;
     }
   }
 
   &--genres {
-    margin-top: 15px;
-    font-size: 15px;
     color: #999;
+    font-size: 15px;
+    strong {
+      font-weight: 400;
+    }
+  }
+
+  &--buttons {
+    margin-top: 20px;
   }
 }
 </style>

@@ -1,0 +1,20 @@
+// Breakpoints
+$breakpoint-xs: 320px !default;
+$breakpoint-sm: 576px !default;
+$breakpoint-md: 768px !default;
+$breakpoint-lg: 992px !default;
+$breakpoint-xl: 1200px !default;
+$breakpoint-xxl: 1600px !default;
+
+// Setup sass-mq (https://github.com/sass-mq/sass-mq)
+$mq-responsive: true !default;
+$mq-breakpoints: (
+  xs: $breakpoint-xs,
+  s: $breakpoint-sm,
+  m: $breakpoint-md,
+  l: $breakpoint-lg,
+  xl: $breakpoint-xl,
+  xxl: $breakpoint-xxl,
+) !default;
+
+@import '~sass-mq/mq';

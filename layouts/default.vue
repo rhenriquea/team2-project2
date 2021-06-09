@@ -1,18 +1,16 @@
 <template>
-  <v-app class="dark">
+  <div>
     <Header />
-    <v-main>
-      <v-container class="container">
-        <nuxt />
-      </v-container>
-    </v-main>
+    <main class="container">
+      <Nuxt />
+    </main>
     <Footer />
-  </v-app>
+  </div>
 </template>
 
 <script>
-import Header from '~/components/Header'
-import Footer from '~/components/Footer'
+import Header from '~/components/layout/Header'
+import Footer from '~/components/layout/Footer'
 
 export default {
   components: { Header, Footer },
@@ -20,7 +18,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.dark {
-  background: #121212;
+main {
+  padding-bottom: 5em;
 }
 </style>

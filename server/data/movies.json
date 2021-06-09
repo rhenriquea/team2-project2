@@ -1,20 +1,32 @@
-[{"id":1,"first_name":"Felipa","last_name":"Edington","email":"fedington0@unblog.fr","job_title":"Electrical Engineer","avatar":"https://robohash.org/quiapraesentiumest.png?size=200x200&set=set1"},
-  {"id":2,"first_name":"Irene","last_name":"Ridger","email":"iridger1@accuweather.com","job_title":"Programmer IV","avatar":"https://robohash.org/dictaetet.png?size=200x200&set=set1"},
-  {"id":3,"first_name":"Burtie","last_name":"Hadland","email":"bhadland2@flavors.me","job_title":"Programmer IV","avatar":"https://robohash.org/doloremexplicabonam.png?size=200x200&set=set1"},
-  {"id":4,"first_name":"Kenneth","last_name":"Plait","email":"kplait3@livejournal.com","job_title":"VP Quality Control","avatar":"https://robohash.org/consecteturetsed.png?size=200x200&set=set1"},
-  {"id":5,"first_name":"Sissy","last_name":"Dongate","email":"sdongate4@dyndns.org","job_title":"Administrative Officer","avatar":"https://robohash.org/molestiaenonmagnam.png?size=200x200&set=set1"},
-  {"id":6,"first_name":"Nanon","last_name":"Woodroof","email":"nwoodroof5@360.cn","job_title":"Accounting Assistant IV","avatar":"https://robohash.org/repudiandaevelitpraesentium.png?size=200x200&set=set1"},
-  {"id":7,"first_name":"Dona","last_name":"Taillant","email":"dtaillant6@ifeng.com","job_title":"Staff Accountant III","avatar":"https://robohash.org/exquasab.png?size=200x200&set=set1"},
-  {"id":8,"first_name":"Rodger","last_name":"Whiffen","email":"rwhiffen7@51.la","job_title":"Account Coordinator","avatar":"https://robohash.org/quisvoluptasmaiores.png?size=200x200&set=set1"},
-  {"id":9,"first_name":"Donal","last_name":"Barensen","email":"dbarensen8@nifty.com","job_title":"Information Systems Manager","avatar":"https://robohash.org/consequunturnecessitatibusomnis.png?size=200x200&set=set1"},
-  {"id":10,"first_name":"Cookie","last_name":"Hollindale","email":"chollindale9@sun.com","job_title":"Editor","avatar":"https://robohash.org/utfacilisquas.png?size=200x200&set=set1"},
-  {"id":11,"first_name":"Harlin","last_name":"Chater","email":"hchatera@amazon.co.jp","job_title":"Research Nurse","avatar":"https://robohash.org/aliquametfugiat.png?size=200x200&set=set1"},
-  {"id":12,"first_name":"Ly","last_name":"Bryceson","email":"lbrycesonb@wisc.edu","job_title":"Accountant I","avatar":"https://robohash.org/nisieligendimodi.png?size=200x200&set=set1"},
-  {"id":13,"first_name":"Minny","last_name":"Colbourn","email":"mcolbournc@adobe.com","job_title":"GIS Technical Architect","avatar":"https://robohash.org/etatipsam.png?size=200x200&set=set1"},
-  {"id":14,"first_name":"Colette","last_name":"De Bruijne","email":"cdebruijned@mozilla.org","job_title":"Actuary","avatar":"https://robohash.org/quiaestnobis.png?size=200x200&set=set1"},
-  {"id":15,"first_name":"Hall","last_name":"Pringour","email":"hpringoure@unblog.fr","job_title":"Librarian","avatar":"https://robohash.org/utquosqui.png?size=200x200&set=set1"},
-  {"id":16,"first_name":"Ravid","last_name":"McMillan","email":"rmcmillanf@jimdo.com","job_title":"GIS Technical Architect","avatar":"https://robohash.org/exercitationemquisnecessitatibus.png?size=200x200&set=set1"},
-  {"id":17,"first_name":"Aryn","last_name":"Doughartie","email":"adoughartieg@foxnews.com","job_title":"Technical Writer","avatar":"https://robohash.org/inimpeditbeatae.png?size=200x200&set=set1"},
-  {"id":18,"first_name":"Clarke","last_name":"Chessor","email":"cchessorh@joomla.org","job_title":"Recruiting Manager","avatar":"https://robohash.org/beataearchitectofuga.png?size=200x200&set=set1"},
-  {"id":19,"first_name":"Fredericka","last_name":"Brierly","email":"fbrierlyi@sogou.com","job_title":"VP Marketing","avatar":"https://robohash.org/suntoptiotenetur.png?size=200x200&set=set1"},
-  {"id":20,"first_name":"Heath","last_name":"Gudgion","email":"hgudgionj@theguardian.com","job_title":"Structural Engineer","avatar":"https://robohash.org/utsapienterem.png?size=200x200&set=set1"}]
+[
+  {
+    "id": 1,
+    "title": "Inception",
+    "cover": "https://primevideoaanbod.nl/wp-content/uploads/2020/03/Inception-Amazon-Prime-Video.jpg",
+    "description": "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
+    "rating": 8.8,
+    "year": 2010,
+    "genres": ["Action", "Adventure", "Sci-Fi"],
+    "actors": ["Leonardo DiCaprio", "Joseph Gordon-Levitt", "Elliot Page"]
+  },
+  {
+    "id": 2,
+    "title": "Back to the Future",
+    "cover": "https://images.gids.tv/geweldige-filmklassieker-back-to-the-future-zie-je-zaterdag-op-veronica.jpg?w=730",
+    "description": "Marty McFly, a 17-year-old high school student, is accidentally sent thirty years into the past in a time-traveling DeLorean invented by his close friend, the eccentric scientist Doc Brown.",
+    "rating": 8.5,
+    "year": 1985,
+    "genres": ["Adventure", "Comedy", "Sci-Fi" ],
+    "actors": ["Michael J. Fox", "Christopher Lloyd", "Lea Thompson" ]
+  },
+  {
+    "id": 3,
+    "title": "Avengers: Endgame",
+    "cover": "https://www.enago.com/academy/wp-content/uploads/2019/05/Webp.net-resizeimage-10-1.png",
+    "description": "After the devastating events of Avengers: Infinity War (2018), the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe.",
+    "rating": 8.4,
+    "year": 2019,
+    "genres": ["Action", "Adventure", "Drama"  ],
+    "actors": ["Robert Downey Jr.", "Chris Evans", "Mark Ruffalo"  ]
+  }
+]

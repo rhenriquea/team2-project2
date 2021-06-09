@@ -18,4 +18,4 @@ mongoose
   .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.info('Database Connected'))
 
-module.exports = app
+module.exports = { path: '/api/v1', handler: app }
