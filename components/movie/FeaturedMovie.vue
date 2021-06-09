@@ -16,11 +16,11 @@
 
           <div class="featured--genres">
             <strong>Genres:</strong>
-            {{ movie.genres.toString().replaceAll(',', ', ') }}
+            {{ movie.genres.toString() }}
           </div>
           <div class="featured--genres">
             <strong>Actors:</strong>
-            {{ movie.actors.toString().replaceAll(',', ', ') }}
+            {{ movie.actors.toString() }}
           </div>
 
           <div class="featured--description">{{ movie.description }}</div>

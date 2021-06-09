@@ -5,7 +5,7 @@
   },
   "builds": [
       {
-          "src": "server/**/*.js",
+          "src": "api/routes/**/*.js",
           "use": "@now/node"
       },
       {
@@ -14,8 +14,9 @@
       }
   ],
   "routes": [
-      { "src": "/server/(.*)", "dest": "server/index.js" },
-      { "src": "/server", "dest": "server/index.js" },
+      { "src": "/api/movies(.*)", "dest": "api/routes/movies" },
+      { "src": "/api/(.*)", "dest": "api/index.js" },
+      { "src": "/api", "dest": "api/index.js" },
       { "src": "/(.*)", "dest": "$1" }
   ]
 }

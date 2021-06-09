@@ -8,12 +8,12 @@
 
       <p class="movie-card--info">
         <strong>Genres:</strong>
-        <span> {{ movie.genres.toString().replaceAll(',', ', ') }} </span>
+        <span> {{ movie.genres.toString() }} </span>
       </p>
 
       <p class="movie-card--info">
         <strong>Actors:</strong>
-        <span> {{ movie.actors.toString().replaceAll(',', ', ') }} </span>
+        <span> {{ movie.actors.toString() }} </span>
       </p>
 
       <div class="movie-card--text mb">

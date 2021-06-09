@@ -20,10 +20,10 @@
 
           <p class="movie__footer">
             <strong>Genres:</strong>
-            <span> {{ movie.genres.toString().replaceAll(',', ', ') }} </span>
+            <span> {{ movie.genres.toString()}} </span>
             <br />
             <strong>Actors:</strong>
-            <span> {{ movie.actors.toString().replaceAll(',', ', ') }} </span>
+            <span> {{ movie.actors.toString()}} </span>
           </p>
           <div class="actions">
             <AnchorButton
