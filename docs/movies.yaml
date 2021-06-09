@@ -1,0 +1,57 @@
+tags:
+  name: Movies
+  description: API to manage your movies.
+
+paths:
+  /movies:            # path of the user from your endpoint
+    get:              # endpoint request type (put request)
+      tags:
+        - [Movie]
+      summary: Get a list of movies
+      produces:
+      - application/json
+      responses:
+        200:
+          description: An array containing movie objects
+          content:
+            application/json:
+              schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Movie'
+
+        401:
+          description: Unauthorized users
+
+components:
+  schemas:
+    Movie:
+      type: object
+      required:
+      - title
+      - cover
+      - description
+      properties:
+        id:
+          type: integer
+          description: The auto-generated id of the movie.
+        title:
+          type: string
+          description: The title of your movie.
+        cover:
+          type: string
+          description: An url to the poster of the movie
+        description:
+          type: string
+          description: A brief synopsis of the movie
+        rating:
+          type: float
+          description: A score rating of the movie
+        year:
+          type: number
+          description: Year of creation of the movie
+      example:
+          title: The Pragmatic Programmer
+          author: Andy Hunt / Dave Thomas
+          finished: true
+  
