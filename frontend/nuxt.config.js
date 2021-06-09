@@ -50,7 +50,6 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/style-resources',
-    '~/modules/api',
   ],
 
   styleResources: {

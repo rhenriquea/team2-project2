@@ -24,8 +24,10 @@ export default {
   },
 
   async fetch() {
-    const { data } = await this.$axios.$get('/api/v1/movies')
-    this.movies = data
+    const res = await this.$axios.$get('/api/v1/movies')
+
+    console.log(res)
+    this.movies = []
   },
 
   activated() {
