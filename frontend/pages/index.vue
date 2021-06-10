@@ -24,10 +24,11 @@ export default {
   },
 
   async fetch() {
-    const res = await this.$axios.$get('/api/v1/movies')
+    const { data } = await this.$axios.$get(
+      'https://moovp2.herokuapp.com/movies'
+    )
 
-    console.log(res)
-    this.movies = []
+    this.movies = data
   },
 
   activated() {
