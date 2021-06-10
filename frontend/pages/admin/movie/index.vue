@@ -17,9 +17,7 @@ export default {
   }),
 
   async fetch() {
-    const { data } = await this.$axios.$get(
-      'https://moovp2.herokuapp.com/movies'
-    )
+    const { data } = await this.$axios.$get('/movies')
     this.person = data.find((p) => p.id.toString() === this.$route.params.id)
   },
 
