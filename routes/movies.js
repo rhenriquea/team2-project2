@@ -1,11 +1,9 @@
 const { Router } = require('express');
 
-const movies = require('../data/movies');
+const controller = require('../controllers/movies');
 
 const router = Router();
 
-router.get('/', (req, res) => {
-  res.status(200).json({ data: movies });
-});
+router.get('/', controller.getMovies);
 
 module.exports = router;
