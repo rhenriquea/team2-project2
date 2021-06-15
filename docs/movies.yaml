@@ -22,6 +22,56 @@ paths:
 
         401:
           description: Unauthorized users
+  /add-movie:  
+     post:
+      tags:
+      - "Add-Movie"
+      summary: "Create a Movie"
+      description: ""
+     
+      produces:
+      - "application/json"
+      parameters:
+      - name: "title"
+        in: "path"
+        required: true
+        type: "string"
+
+      - name: "cover"
+        in: "path"
+        required: true
+        type: "string"
+
+      - name: "description"
+        in: "path"
+        required: true
+        type: "string"
+
+      - name: "rating"
+        in: "path"
+        required: true
+        type: "number"
+
+      - name: "year"
+        in: "path"
+        required: true
+        type: "number"
+
+      - name: "genres"
+        in: "path"
+        required: true
+        type: "array"
+      
+      - name: "actors"
+        in: "path"
+        required: true
+        type: "array"
+     
+      responses:
+        200:
+          description: Success
+          
+        
 
 components:
   schemas:
@@ -45,13 +95,25 @@ components:
           type: string
           description: A brief synopsis of the movie
         rating:
-          type: float
+          type: number
           description: A score rating of the movie
         year:
           type: number
           description: Year of creation of the movie
+        genres:
+          type: array
+          description: Genres of the movie
+        actors:
+          type: array
+          description: Actors of the movie
       example:
+          id: 20
           title: The Pragmatic Programmer
-          author: Andy Hunt / Dave Thomas
-          finished: true
+          cover: http
+          description: sample description
+          rating: 9
+          year: 2021
+          genres: [Adventure, Comedy, Sci-fi]
+          actors: [Michael, Lea, John]
+
   
