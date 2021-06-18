@@ -31,18 +31,27 @@ const options = {
   apis: ['./docs/**/*.yaml'],
 };
 
+// Body parser
+// app.use(bodyParser.urlencoded({
+//   extended: false
+// })).use(bodyParser.json());
+
+app.use(bodyParser.json()); // application/json
+
+
 const specs = swaggerJsdoc(options);
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET, POST, PUT, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
 
 // Routes
 app.use('/movies', require('./routes/movies'));
-app.post('/add-movies', require('./routes/movies'));
+// app.use('/', swaggerUi.serve, swaggerUi.setup(specs));
 
-app.use('/', swaggerUi.serve, swaggerUi.setup(specs));
 
-// Body parser
-app.use(bodyParser.urlencoded({
-  extended: false
-})).use(bodyParser.json());
 
 const {
   MONGODB_USER,
