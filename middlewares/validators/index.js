@@ -1,5 +1,7 @@
-const moviePostValidator = require('./moviePostValidator');
+const movieValidator = require('./movie');
+const userValidator = require('./user');
 
 module.exports = {
-  moviePostValidator,
+  movieValidator,
+  userValidator,
 };

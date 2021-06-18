@@ -27,6 +27,11 @@ const schema = new Schema(
     year: {
       type: Number,
     },
+    creator: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
   },
   { timestamps: true }
 );
