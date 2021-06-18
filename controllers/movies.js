@@ -1,5 +1,5 @@
 const Movie = require('../models/movie');
-
+var fs = require('fs');
 exports.getMovies = async (req, res) => {
   const movies = await Movie.find();
   res.status(200).json({
@@ -7,31 +7,44 @@ exports.getMovies = async (req, res) => {
   });
 };
 
-exports.getAddMovies = (req, res) => {
-  res.render('/add-movie'), {
-    title: ' Add Movie',
-    path: 'add-movie'
-  }
-}
-
 exports.postMovies = (req, res) => {
 
-  const movies = new Movie({
+
+  const movie = new Movie({
+    id: new Date().toISOString(),
     title: req.body.title,
     cover: req.body.cover,
     description: req.body.description,
-    genres: [req.body.genres],
-    actors: [req.body.actors],
+    genres: req.body.genres,
+    actors: req.body.actors,
     rating: req.body.rating,
     year: req.body.year
   });
+  movie
+    .save()
+    .then(result => {
+      res.status(201).json({
+        message: 'Post created successfully!',
+        movie: result
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    });
 
-  movies.save(function (err, movies) {
-    if (err) {
-      return next(err)
-    }
-    res.json(201, movies)
-  })
 
 
+
+  // res.status(201).json({
+  //   data: {
+  //     id: new Date().toISOString(),
+  //     title: req.body.title,
+  //     cover: req.body.cover,
+  //     description: req.body.description,
+  //     genres: [req.body.genres],
+  //     actors: [req.body.actors],
+  //     rating: req.body.rating,
+  //     year: req.body.year
+  //   }
+  // })
 };
