@@ -10,34 +10,36 @@ exports.signup = async (req, res, next) => {
   const errors = validationResult(req);
   const hasErrors = !errors.isEmpty();
   let encryptedPassword = null;
-
-  if (hasErrors) {
-    const error = new Error('Validation failed. Incorrect payload provided');
-    error.statusCode = 422;
-    error.data = error.array();
-    throw error;
-  }
+  let user;
 
   const { email, name, password } = req.body;
 
   try {
-    encryptedPassword = await hash(password, 12);
-  } catch (error) {
-    if (!error.statusCode) {
-      error.statusCode = 500;
+    user = await User.findOne({ email });
+
+    if (user) {
+      const error = new Error('User already registered');
+      error.statusCode = 403;
+      throw error;
     }
-    next(error);
-  }
 
-  const user = new User({
-    email,
-    name,
-    password: encryptedPassword,
-  });
+    if (hasErrors) {
+      const error = new Error('Validation failed. Incorrect payload provided');
+      error.statusCode = 422;
+      error.data = errors.array();
+      throw error;
+    }
 
-  try {
-    const newUser = await user.save();
-    res.status(201).json({ message: 'User created', userId: newUser._id });
+    encryptedPassword = await hash(password, 12);
+
+    user = new User({
+      email,
+      name,
+      password: encryptedPassword,
+    });
+
+    user = await user.save();
+    res.status(201).json({ message: 'User created', userId: user._id });
   } catch (error) {
     if (!error.statusCode) {
       error.statusCode = 500;
@@ -51,23 +53,17 @@ exports.login = async (req, res, next) => {
   let user;
 
   try {
-    user = User.findOne({ email });
-  } catch (error) {
-    if (!error.statusCode) {
-      error.statusCode = 500;
+    user = await User.findOne({ email });
+
+    if (!user) {
+      const error = new Error('User not found.');
+      error.statusCode = 401;
+      throw error;
     }
-    next(error);
-  }
 
-  if (!user) {
-    const error = new Error('User not found.');
-    error.statusCode = 401;
-    throw error;
-  }
-
-  try {
     // Check password
     const isValid = await compare(password, user.password);
+
     if (!isValid) {
       const error = new Error('Invalid credentials');
       error.statusCode = 401;

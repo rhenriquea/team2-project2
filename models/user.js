@@ -14,10 +14,6 @@ const schema = new Schema(
       type: String,
       required: true,
     },
-    status: {
-      type: String,
-      default: 'New',
-    },
     movies: [
       {
         type: Schema.Types.ObjectId,
