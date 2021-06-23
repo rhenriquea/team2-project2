@@ -14,4 +14,15 @@ export default function ({ store, $axios, redirect }) {
       }
     }
   })
+
+  $axios.onError((config) => {
+    if (config.response && config.response.data) {
+      const { status, message } = config.response.data
+
+      if (status === 500 && message === 'INVALID_TOKEN') {
+        store.dispatch('setJWTToken', { token: null })
+        redirect('/auth')
+      }
+    }
+  })
 }

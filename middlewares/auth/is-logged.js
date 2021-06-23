@@ -18,8 +18,9 @@ module.exports = (req, res, next) => {
   try {
     decodedToken = jwt.verify(token, API_SECRET);
   } catch (error) {
+    const validation = new Error('INVALID_TOKEN');
     error.statusCode = 500;
-    throw error;
+    throw validation;
   }
 
   if (!decodedToken) {

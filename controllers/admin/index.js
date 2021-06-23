@@ -55,8 +55,8 @@ exports.postMovie = async (req, res, next) => {
     title,
     cover,
     description,
-    genres,
-    actors,
+    genres: genres.split(','),
+    actors: actors.split(','),
     rating,
     year,
     creator: req.userId,
@@ -101,16 +101,20 @@ exports.editMovie = async (req, res, next) => {
     throw error;
   }
 
+  const { id } = req.params;
+  const { title, description, genres, actors, rating, year } = req.body;
+  let { cover } = req.body;
+
+  if (req.file) {
+    cover = req.file.path;
+  }
+
   // Check for file uploads
-  if (!req.file) {
+  if (!cover) {
     const error = new Error('Cover image is required');
     error.statusCode = 422;
     throw error;
   }
-
-  const { id } = req.params;
-  const { title, description, genres, actors, rating, year } = req.body;
-  const cover = req.file.path;
 
   try {
     const movie = await Movie.findById(id);
@@ -127,22 +131,23 @@ exports.editMovie = async (req, res, next) => {
       error.statusCode = 403;
       throw error;
     }
-    console.log('MOVIE', movie);
 
     if (cover !== movie.cover) {
       deleteImage(movie.cover);
     }
 
+    console.log(actors);
+
     movie.title = title;
     movie.cover = cover;
     movie.description = description;
-    movie.genres = genres;
-    movie.actors = actors;
+    movie.genres = genres.split(',');
+    movie.actors = actors.split(',');
     movie.rating = rating;
     movie.year = year;
 
     await movie.save();
-    res.status(200).json({ message: 'Movie updated!' });
+    res.status(200).json({ message: 'Movie updated!', movie });
   } catch (error) {
     if (!error.statusCode) {
       error.statusCode = 500;

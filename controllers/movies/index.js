@@ -2,7 +2,7 @@ const Movie = require('../../models/movie');
 
 exports.getMovies = async (req, res, next) => {
   const page = req.query.page || 1;
-  const limit = 3;
+  const limit = 10;
   let count = 0;
 
   try {

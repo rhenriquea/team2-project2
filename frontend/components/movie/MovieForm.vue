@@ -216,6 +216,7 @@ export default {
 
   mounted() {
     if (this.isEdit) {
+      console.log(this.movie)
       this.title = this.movie.title
       this.description = this.movie.description
       this.year = this.movie.year
