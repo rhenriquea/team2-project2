@@ -6,5 +6,6 @@ const router = Router();
 
 router.get('/', controller.getMovies);
 router.post('/postmovie', controller.postMovies);
+router.get('/:movieId', controller.getMovie);
 
 module.exports = router;

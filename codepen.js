@@ -6,10 +6,6 @@
 const get = document.getElementById('get');
 const post = document.getElementById('post');
 
-
-const get = document.getElementById('get');
-const post = document.getElementById('post');
-
 get.addEventListener('click', () => {
     fetch('http://localhost:5000/movies').then(res => res.json()).then(resData => console.log(resData)).catch(err => console.log(err));
 });
