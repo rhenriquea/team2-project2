@@ -39,6 +39,9 @@ export default {
       title,
     }
   },
+  mounted() {
+    console.log(this.error)
+  },
 }
 </script>
 

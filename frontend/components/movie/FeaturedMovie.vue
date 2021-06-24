@@ -121,14 +121,6 @@ export default {
     absolute: true,
     overlay: false,
   }),
-  methods: {
-    deleteOverlay() {
-      this.overlay = !this.overlay
-    },
-    confirmDelete() {
-      console.log('Confirm Delete')
-    },
-  },
   computed: {
     description() {
       let description = this.movie.description

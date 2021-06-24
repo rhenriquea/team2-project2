@@ -36,16 +36,17 @@ exports.postMovie = async (req, res, next) => {
   const hasErrors = !errors.isEmpty();
 
   if (hasErrors) {
-    const error = new Error('Validation failed. Incorrect payload provided');
+    const { title: err } = errors.mapped();
+    const error = new Error(`${err.msg} on field ${err.param}`);
     error.statusCode = 422;
-    throw error;
+    next(error);
   }
 
   // Check for file uploads
   if (!req.file) {
     const error = new Error('Cover image is required');
     error.statusCode = 422;
-    throw error;
+    next(error);
   }
 
   const { title, description, genres, actors, rating, year } = req.body;
