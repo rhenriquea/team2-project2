@@ -137,8 +137,6 @@ exports.editMovie = async (req, res, next) => {
       deleteImage(movie.cover);
     }
 
-    console.log(actors);
-
     movie.title = title;
     movie.cover = cover;
     movie.description = description;
@@ -167,6 +165,12 @@ exports.deleteMovie = async (req, res, next) => {
       const error = new Error('Movie not found.');
       error.statusCode = 404;
       throw error;
+    }
+
+    if (!movie.creator) {
+      await Movie.findByIdAndRemove(id);
+      res.status(200).json({ message: 'Movie deleted!' });
+      return;
     }
 
     // Check if user was the creator
