@@ -42,7 +42,7 @@ exports.getMovie = (req, res, next) => {
         throw error;
       }
       res.status(200).json({
-        message: 'Post fetched.',
+        message: 'Movie fetched.',
         movie: movie
       });
     })
