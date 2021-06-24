@@ -1,5 +1,7 @@
 const Movie = require('../models/movie');
 var fs = require('fs');
+
+//get all movies
 exports.getMovies = async (req, res) => {
   const movies = await Movie.find();
   res.status(200).json({
@@ -7,9 +9,10 @@ exports.getMovies = async (req, res) => {
   });
 };
 
+//post one movie
+
 exports.postMovies = (req, res) => {
   const movie = new Movie({
-    id: new Date().toISOString(),
     title: req.body.title,
     cover: req.body.cover,
     description: req.body.description,
@@ -31,7 +34,7 @@ exports.postMovies = (req, res) => {
     });
 };
 
-//GetMovieByID
+//get movie by ID
 exports.getMovie = (req, res, next) => {
   const movieId = req.params.movieId;
   Movie.findById(movieId)
@@ -44,6 +47,52 @@ exports.getMovie = (req, res, next) => {
       res.status(200).json({
         message: 'Movie fetched.',
         movie: movie
+      });
+    })
+    .catch(err => {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    });
+};
+
+
+exports.updateMovie = (req, res, next) => {
+  const movieId = req.params.movieId;
+
+  updatedTitle = req.body.title;
+  updatedCover = req.body.cover;
+  updatedDescription = req.body.description;
+  updatedGenres = req.body.genres;
+  updatedActors = req.body.actors;
+  updatedRating = req.body.rating;
+  updatedYear = req.body.year;
+
+
+  Movie.findById(movieId)
+    .then(movie => {
+      if (!movie) {
+        const error = new Error('Could not find movie.');
+        error.statusCode = 404;
+        throw error;
+      }
+
+      movie.title = updatedTitle;
+      movie.cover = updatedCover;
+      movie.description = updatedDescription;
+      movie.genres = updatedGenres;
+      movie.actors = updatedActors;
+      movie.rating = updatedRating;
+      movie.year = updatedYear;
+
+      return movie
+        .save();
+    })
+    .then(result => {
+      res.status(200).json({
+        message: 'Movie updated!',
+        movie: result
       });
     })
     .catch(err => {
