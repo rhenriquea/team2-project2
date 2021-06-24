@@ -8,8 +8,6 @@ exports.getMovies = async (req, res) => {
 };
 
 exports.postMovies = (req, res) => {
-
-
   const movie = new Movie({
     id: new Date().toISOString(),
     title: req.body.title,
@@ -31,20 +29,27 @@ exports.postMovies = (req, res) => {
     .catch(err => {
       console.log(err);
     });
+};
 
-
-
-
-  // res.status(201).json({
-  //   data: {
-  //     id: new Date().toISOString(),
-  //     title: req.body.title,
-  //     cover: req.body.cover,
-  //     description: req.body.description,
-  //     genres: [req.body.genres],
-  //     actors: [req.body.actors],
-  //     rating: req.body.rating,
-  //     year: req.body.year
-  //   }
-  // })
+//GetMovieByID
+exports.getMovie = (req, res, next) => {
+  const movieId = req.params.movieId;
+  Movie.findById(movieId)
+    .then(movie => {
+      if (!movie) {
+        const error = new Error('Could not find movie');
+        error.statusCode = 404;
+        throw error;
+      }
+      res.status(200).json({
+        message: 'Post fetched.',
+        movie: movie
+      });
+    })
+    .catch(err => {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    });
 };
