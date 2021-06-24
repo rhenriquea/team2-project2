@@ -1,5 +1,5 @@
 const Movie = require('../models/movie');
-var fs = require('fs');
+var ObjectId = require('mongodb').ObjectID;
 
 //get all movies
 exports.getMovies = async (req, res) => {
@@ -36,7 +36,7 @@ exports.postMovies = (req, res) => {
 
 //get movie by ID
 exports.getMovie = (req, res, next) => {
-  const movieId = req.params.movieId;
+  const movieId = new ObjectId(req.params.movieId);
   Movie.findById(movieId)
     .then(movie => {
       if (!movie) {
@@ -93,6 +93,32 @@ exports.updateMovie = (req, res, next) => {
       res.status(200).json({
         message: 'Movie updated!',
         movie: result
+      });
+    })
+    .catch(err => {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    });
+};
+
+exports.deleteMovie = (req, res, next) => {
+  const movieId = req.params.movieId;
+  Movie.findById(movieId)
+    .then(movie => {
+      if (!movie) {
+        const error = new Error('Could not find movie.');
+        error.statusCode = 404;
+        throw error;
+      }
+      // Check logged in user
+      return Movie.findByIdAndRemove(movieId);
+    })
+    .then(result => {
+      console.log(result);
+      res.status(200).json({
+        message: 'Deleted Movie.'
       });
     })
     .catch(err => {
