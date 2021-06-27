@@ -14,8 +14,15 @@ export default {
   }),
 
   async fetch() {
-    const { data } = await this.$axios.$get('/movies')
-    this.movie = data.find((p) => p.id.toString() === this.$route.params.id)
+    const { id } = this.$route.params
+
+    try {
+      const { movie } = await this.$axios.$get(`/api/v1/movies/${id}`)
+      this.movie = movie
+    } catch (e) {
+      this.$store.dispatch('showErrorMessage', e)
+      this.$router.push('/')
+    }
   },
 }
 </script>

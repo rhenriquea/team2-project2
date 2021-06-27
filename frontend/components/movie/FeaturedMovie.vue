@@ -1,51 +1,114 @@
 <template>
-  <div v-if="movie">
-    <section
-      class="featured--cover"
-      :style="{
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundImage: `url(${movie.cover})`,
-      }"
-    >
-      <div class="featured--horizontal-transparency">
-        <div class="featured--vertical-transparency">
-          <h1 class="featured--title">
-            {{ movie.title }}
-          </h1>
+  <v-row align="center" justify="center">
+    <v-card v-if="movie" dark class="pt-4" min-width="70vw">
+      <v-btn class="mb-3" text @click="$router.go(-1)">
+        <v-icon left dark> mdi-chevron-left </v-icon>
+        Back
+      </v-btn>
 
-          <div class="featured--genres">
-            <strong>Genres:</strong>
-            {{ movie.genres.toString() }}
-          </div>
-          <div class="featured--genres">
-            <strong>Actors:</strong>
-            {{ movie.actors.toString() }}
-          </div>
+      <!-- DELETE OVERLAY -->
+      <v-overlay :absolute="absolute" :value="overlay" opacity="0.8">
+        <v-card class="mx-auto" max-width="50vw" outlined>
+          <v-list-item three-line>
+            <v-list-item-content>
+              <div class="text-overline mb-4">ARE YOU SURE?</div>
+              <v-list-item-title class="text-h5 mb-1">
+                Deleting {{ movie.title }}
+              </v-list-item-title>
+              <v-list-item-subtitle
+                >You are about to delete {{ movie.title }} from your movies. If
+                you want to proceed, confirm below.
+              </v-list-item-subtitle>
+            </v-list-item-content>
 
-          <div class="featured--description">{{ movie.description }}</div>
-          <div class="featured--buttons">
-            <span v-if="allowEdit">
-              <AnchorButton
-                :to="`admin/movie/${movie.id}`"
-                icon="edit"
-                label="Edit"
-              />
-              <CustomButton type="button" label="Delete" />
-            </span>
+            <v-avatar class="ma-3" size="125" tile>
+              <v-img :src="movie.cover"></v-img>
+            </v-avatar>
+          </v-list-item>
+
+          <v-card-actions>
+            <v-btn outlined rounded text @click="overlay = false">
+              Cancel
+            </v-btn>
+            <v-btn color="red" outlined rounded text @click="confirmDelete">
+              <v-icon left dark> mdi-delete </v-icon>Delete</v-btn
+            >
+          </v-card-actions>
+        </v-card>
+      </v-overlay>
+
+      <section
+        class="featured--cover"
+        :style="{
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundImage: `url(${coverURL})`,
+        }"
+      >
+        <div class="featured--horizontal-transparency">
+          <div class="featured--vertical-transparency">
+            <v-card-title class="display-3">
+              <strong>
+                {{ movie.title }}
+              </strong>
+            </v-card-title>
+            <v-card-subtitle>
+              <span>
+                {{ movie.year }}
+              </span>
+              <v-rating
+                :value="movie.rating"
+                color="amber"
+                class="mt-1"
+                dense
+                half-increments
+                readonly
+                medium
+              ></v-rating>
+            </v-card-subtitle>
+
+            <v-card-text class="featured--description"
+              >{{ description }}
+
+              <v-row>
+                <v-col class="p-0">
+                  <v-list class="transparent" dense>
+                    <v-subheader><strong> Genres</strong></v-subheader>
+                    <v-list-item v-for="genre in movie.genres" :key="genre">
+                      <v-list-item-title>{{ genre }}</v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+                </v-col>
+                <v-col class="p-0">
+                  <v-list class="transparent" dense>
+                    <v-subheader><strong> Actors</strong></v-subheader>
+                    <v-list-item v-for="actor in movie.actors" :key="actor">
+                      <v-list-item-title>{{ actor }}</v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+                </v-col>
+              </v-row>
+            </v-card-text>
+
+            <v-card-actions v-if="isAuthenticated">
+              <v-btn color="primary" outlined :to="`admin/movie/${movie._id}`">
+                <v-icon left dark> mdi-pencil </v-icon> Edit</v-btn
+              >
+              <v-btn color="red" outlined @click="deleteOverlay">
+                <v-icon left dark> mdi-delete </v-icon>Delete</v-btn
+              >
+            </v-card-actions>
           </div>
         </div>
-      </div>
-    </section>
-  </div>
+      </section>
+    </v-card>
+  </v-row>
 </template>
 
 <script>
-import AnchorButton from '../forms/AnchorButton'
-import CustomButton from '../forms/CustomButton'
+import { mapGetters } from 'vuex'
 
 export default {
-  components: { AnchorButton, CustomButton },
   props: {
     movie: undefined,
     allowEdit: {
@@ -55,21 +118,36 @@ export default {
   },
   data: () => ({
     rating: 4,
+    absolute: true,
+    overlay: false,
   }),
   computed: {
     description() {
-      let description = this.item.overview
+      let description = this.movie.description
       if (description.length > 200) {
-        description = `${description.substring(0, 200)}...`
+        description = `${description.substring(0, 200)} ...`
       }
       return description
     },
-    genres() {
-      const genres = []
-      for (const i in this.item.genres) {
-        genres.push(this.item.genres[i].name)
+    coverURL() {
+      return `${process.env.BASE_URL || 'https://moovp2.herokuapp.com'}/${
+        this.movie.cover
+      }`
+    },
+    ...mapGetters(['isAuthenticated']),
+  },
+  methods: {
+    deleteOverlay() {
+      this.overlay = !this.overlay
+    },
+    async confirmDelete() {
+      try {
+        await this.$axios.$delete(`/api/v1/admin/movies/${this.movie._id}`)
+        this.$store.dispatch('showSuccessMessage', 'Movie Deleted!')
+        this.$router.push('/admin')
+      } catch (e) {
+        this.$store.dispatch('showErrorMessage', e)
       }
-      return genres.join(', ')
     },
   },
 }
