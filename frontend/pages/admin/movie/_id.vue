@@ -9,34 +9,19 @@ export default {
   components: {
     MovieForm,
   },
+  middleware: 'auth',
 
   data: () => ({ movie: undefined }),
 
   async fetch() {
-    const { data } = await this.$axios.$get('/movies')
-    this.movie = data.find((p) => p.id.toString() === this.$route.params.id)
-  },
+    const { id } = this.$route.params
 
-  methods: {
-    submit() {
-      this.$refs.form.validate()
-
-      const updatedPerson = {
-        id: this.person.id,
-        first_name: this.first_name,
-        last_name: this.last_name,
-        job_title: this.job_title,
-        email: this.email,
-      }
-
-      console.log(updatedPerson)
-    },
-    reset() {
-      this.$refs.form.reset()
-    },
-    resetValidation() {
-      this.$refs.form.resetValidation()
-    },
+    try {
+      const { movie } = await this.$axios.$get(`/api/v1/movies/${id}`)
+      this.movie = movie
+    } catch (e) {
+      this.$store.dispatch('showErrorMessage', e)
+    }
   },
 }
 </script>

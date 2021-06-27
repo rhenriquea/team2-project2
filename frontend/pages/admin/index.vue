@@ -2,38 +2,65 @@
   <div class="admin">
     <div class="admin--header p">
       <h1>My Movies</h1>
-      <AnchorButton to="admin/movie" icon="add" label="Add Movie" />
+      <v-btn color="green" to="admin/movie">Add Movie</v-btn>
     </div>
     <ul class="admin--movies p-5">
       <li v-for="movie in movies" :key="movie.id">
         <MovieListItem :movie="movie" />
       </li>
     </ul>
+    <div v-if="totalMovies >= 3" class="text-center mt-10">
+      <v-pagination
+        v-model="page"
+        :length="pageCount"
+        :total-visible="7"
+        circle
+        @input="pageChange"
+      ></v-pagination>
+    </div>
   </div>
 </template>
 
 <script>
 import MovieListItem from '~/components/movie/MovieListItem'
-import AnchorButton from '~/components/forms/AnchorButton'
 
 export default {
   components: {
     MovieListItem,
-    AnchorButton,
   },
+  middleware: 'auth',
   data: () => ({
     movies: [],
+    pageCount: 1,
+    totalMovies: 0,
+    page: 1,
   }),
 
   async fetch() {
-    const { data } = await this.$axios.$get('/movies')
-    this.movies = data
+    try {
+      const { data, count } = await this.$axios.$get('/api/v1/admin/movies')
+      this.movies = data
+      this.totalMovies = count
+      this.pageCount = Math.ceil(count / 3)
+    } catch (e) {
+      this.$store.dispatch('showErrorMessage', e)
+      this.$router.push('/')
+    }
   },
 
   activated() {
     if (this.$fetchState.timestamp <= Date.now() - 30000) {
       this.$fetch()
     }
+  },
+
+  methods: {
+    async pageChange(nextPage) {
+      const { data } = await this.$axios.$get(
+        `/api/v1/admin/movies?page=${nextPage}`
+      )
+      this.movies = data
+    },
   },
 }
 </script>
