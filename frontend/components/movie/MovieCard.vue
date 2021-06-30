@@ -1,41 +1,66 @@
 <template>
-  <div class="movie-card mx-auto mb" tile max-width="344" dark>
-    <img :src="movie.cover" alt="card cover" />
+  <v-card dark max-width="374" outlined elevation="2">
+    <v-img height="250" :src="coverURL"></v-img>
 
-    <div class="movie-card--content">
-      <h1 class="movie-card--title">{{ movie.title }}</h1>
-      <div class="movie-card--subtitle">{{ movie.year }}</div>
+    <v-card-title>{{ movie.title }}</v-card-title>
 
-      <p class="movie-card--info">
-        <strong>Genres:</strong>
-        <span> {{ movie.genres.toString() }} </span>
-      </p>
+    <v-card-text>
+      <v-row align="center" class="mx-0">
+        <v-rating
+          :value="rating"
+          color="amber"
+          dense
+          half-increments
+          readonly
+          size="14"
+        ></v-rating>
 
-      <p class="movie-card--info">
-        <strong>Actors:</strong>
-        <span> {{ movie.actors.toString() }} </span>
-      </p>
+        <div class="grey--text ms-4">{{ movie.rating }} ({{ score }})</div>
+      </v-row>
 
-      <div class="movie-card--text mb">
-        <h4>Summary</h4>
-        <p>{{ movie.description }}</p>
+      <div class="my-4 text-subtitle-1">Year • {{ movie.year }}</div>
+
+      <div>
+        {{ description }}
       </div>
+    </v-card-text>
 
-      <div class="movie-card--actions">
-        <AnchorButton :to="`/${movie.id}`" icon="add" label="Information" />
-      </div>
-    </div>
-  </div>
+    <v-divider class="mx-4"></v-divider>
+
+    <v-card-actions class="py-4">
+      <v-btn text color="primary" :to="`/${movie._id}`"> Details </v-btn>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>
-import AnchorButton from '../forms/AnchorButton'
+// import AnchorButton from '../forms/AnchorButton'
 export default {
-  components: { AnchorButton },
+  // components: { AnchorButton },
   props: {
     movie: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    description() {
+      let description = this.movie.description
+      if (description.length > 120) {
+        description = `${description.substring(0, 120)} ...`
+      }
+      return description
+    },
+    coverURL() {
+      return `${process.env.BASE_URL || 'https://moovp2.herokuapp.com'}/${
+        this.movie.cover
+      }`
+    },
+    score() {
+      return Math.round((this.movie.rating / 5) * 100) + '%'
+    },
+    rating() {
+      return this.movie.rating
     },
   },
 }
@@ -48,6 +73,10 @@ export default {
 
   cursor: pointer;
   width: 95%;
+
+  &--cover {
+    height: 150px;
+  }
 
   &--content {
     padding: 1em;

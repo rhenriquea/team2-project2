@@ -19,7 +19,7 @@ export default {
       { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Kanit:wght@100;300;500;700&display=swap',
+        href: 'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900',
       },
       {
         rel: 'stylesheet',
@@ -32,7 +32,7 @@ export default {
   css: ['~assets/styles/global.scss'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: ['~/plugins/axios', { src: '~/plugins/vuex-persist', ssr: false }],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -43,12 +43,14 @@ export default {
     '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/stylelint
     '@nuxtjs/stylelint-module',
+    '@nuxtjs/vuetify',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/dotenv',
     '@nuxtjs/style-resources',
   ],
 
@@ -56,9 +58,15 @@ export default {
     scss: ['./assets/styles/vars/*.scss'],
   },
 
+  vuetify: {
+    theme: {
+      dark: true,
+    },
+  },
+
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: 'http://localhost:5000', // Used as fallback if no runtime config is provided
+    baseURL: process.env.BASE_URL,
   },
 
   publicRuntimeConfig: {
@@ -71,6 +79,10 @@ export default {
     axios: {
       baseURL: process.env.BASE_URL,
     },
+  },
+
+  env: {
+    baseUrl: process.env.BASE_URL,
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

@@ -1,51 +1,66 @@
 <template>
-  <NuxtLink
-    v-if="movie"
-    v-slot="{ navigate }"
-    class="movie"
-    :to="`/admin/movie/${movie.id}`"
-    custom
-  >
-    <a role="link" @click="navigate">
-      <div class="movie__line">
-        <div
-          class="movie__thumbnail"
-          :style="{ backgroundImage: `url(${movie.cover})` }"
-        ></div>
-        <div class="p movie__content">
-          <h3>{{ movie.title }} ({{ movie.year }})</h3>
-          <p class="movie__description">
+  <v-card>
+    <div class="d-flex flex-no-wrap">
+      <v-avatar class="mt-6" size="125" tile>
+        <v-img height="250" :src="coverURL"></v-img>
+      </v-avatar>
+      <div class="d-md-flex">
+        <v-sheet max-width="40vw">
+          <v-card-title class="text-h5" v-text="movie.title"></v-card-title>
+          <v-card-subtitle>
+            {{ movie.year }}
+            <v-rating
+              :value="movie.rating"
+              color="amber"
+              dense
+              half-increments
+              readonly
+              small
+            ></v-rating>
+          </v-card-subtitle>
+          <v-card-text>
             {{ movie.description }}
-          </p>
+          </v-card-text>
+        </v-sheet>
 
-          <p class="movie__footer">
-            <strong>Genres:</strong>
-            <span> {{ movie.genres.toString()}} </span>
-            <br />
-            <strong>Actors:</strong>
-            <span> {{ movie.actors.toString()}} </span>
-          </p>
-          <div class="actions">
-            <AnchorButton
-              :to="`admin/movie/${movie.id}`"
-              icon="edit"
-              label="Edit"
-            />
-            <CustomButton type="button" label="Delete" />
-          </div>
+        <div v-if="movie.actors.length > 1">
+          <v-list class="transparent" dense>
+            <v-subheader><strong> Actors</strong></v-subheader>
+            <v-list-item v-for="actor in movie.actors" :key="actor">
+              <v-list-item-title>{{ actor }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </div>
+
+        <div v-if="movie.genres.length > 1">
+          <v-list class="transparent" dense>
+            <v-subheader><strong> Genres</strong></v-subheader>
+            <v-list-item v-for="genre in movie.genres" :key="genre">
+              <v-list-item-title>{{ genre }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
         </div>
       </div>
-    </a>
-  </NuxtLink>
+    </div>
+    <v-divider></v-divider>
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-btn text color="primary" :to="`/${movie._id}`"> Details </v-btn>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>
-import AnchorButton from '~/components/forms/AnchorButton'
-import CustomButton from '~/components/forms/CustomButton'
 export default {
-  components: { AnchorButton, CustomButton },
   props: {
     movie: undefined,
+  },
+  computed: {
+    coverURL() {
+      return `${process.env.BASE_URL || 'https://moovp2.herokuapp.com'}/${
+        this.movie.cover
+      }`
+    },
   },
 }
 </script>
