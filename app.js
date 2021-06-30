@@ -2,12 +2,13 @@ require('dotenv').config();
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const app = require('express')();
-
+const express = require('express');
 app.use(cors());
-
+const path = require('path');
 const mongoose = require('mongoose');
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
+const multer = require('multer')
 
 const PORT = process.env.PORT || 5000;
 
@@ -35,6 +36,34 @@ const options = {
 // app.use(bodyParser.urlencoded({
 //   extended: false
 // })).use(bodyParser.json());
+app.use('/images', express.static(path.join(__dirname, 'images')));
+
+/**
+ * Image Upload Logic
+ */
+
+const fileStorage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, 'images');
+  },
+  filename: (req, file, callback) => {
+    callback(null, `${file.originalname}`);
+  },
+});
+
+const fileFilter = (req, file, callback) => {
+  if (
+    file.mimetype === 'image/png' ||
+    file.mimetype === 'image/jpg' ||
+    file.mimetype === 'image/jpeg'
+  ) {
+    callback(null, true);
+  } else {
+    callback(null, false);
+  }
+};
+
+app.use(multer({ storage: fileStorage, fileFilter }).single('cover'));
 
 app.use(bodyParser.json()); // application/json
 
@@ -48,7 +77,7 @@ app.use((req, res, next) => {
 });
 
 // Routes
-app.use('/movies', require('./routes/movies'));
+app.use('/api/v1', require('./routes/movies'));
 // app.use('/', swaggerUi.serve, swaggerUi.setup(specs));
 
 
