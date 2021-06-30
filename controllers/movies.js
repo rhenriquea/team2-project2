@@ -1,6 +1,7 @@
 const Movie = require('../models/movie');
 var ObjectId = require('mongodb').ObjectID;
-
+const path = require('path');
+const fs = require('fs');
 //get all movies
 exports.getMovies = async (req, res) => {
   const movies = await Movie.find();
@@ -8,6 +9,12 @@ exports.getMovies = async (req, res) => {
     data: movies
   });
 };
+
+const clearImage = filePath => {
+  filePath = path.join(__dirname, '..', filePath);
+  fs.unlink(filePath, err => console.log(err));
+};
+
 
 //post one movie
 
@@ -87,6 +94,9 @@ exports.updateMovie = (req, res, next) => {
         error.statusCode = 404;
         throw error;
       }
+      if (updatedCover !== movie.cover) {
+        clearImage(movie.cover);
+      }
 
       movie.title = updatedTitle;
       movie.cover = updatedCover;
@@ -114,6 +124,7 @@ exports.updateMovie = (req, res, next) => {
 };
 exports.deleteMovie = (req, res, next) => {
   const movieId = req.params.id;
+  let cover = req.body.path;
   Movie.findById(movieId)
     .then(movie => {
       if (!movie) {
@@ -122,6 +133,7 @@ exports.deleteMovie = (req, res, next) => {
         throw error;
       }
       // Check logged in user
+      clearImage(movie.cover);
       return Movie.findByIdAndRemove(movieId);
     })
     .then(result => {
