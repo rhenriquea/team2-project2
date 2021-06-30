@@ -12,9 +12,16 @@ exports.getMovies = async (req, res) => {
 //post one movie
 
 exports.postMovies = (req, res) => {
+
+  if (!req.file) {
+    const error = new Error('No image provided.');
+    error.statusCode = 422;
+    throw error;
+
+  }
   const movie = new Movie({
     title: req.body.title,
-    cover: req.body.cover,
+    cover: req.file.path,
     description: req.body.description,
     genres: req.body.genres,
     actors: req.body.actors,
@@ -33,10 +40,9 @@ exports.postMovies = (req, res) => {
       console.log(err);
     });
 };
-
 //get movie by ID
 exports.getMovie = (req, res, next) => {
-  const movieId = new ObjectId(req.params.movieId);
+  const movieId = new ObjectId(req.params.id);
   Movie.findById(movieId)
     .then(movie => {
       if (!movie) {
@@ -56,13 +62,17 @@ exports.getMovie = (req, res, next) => {
       next(err);
     });
 };
-
-
 exports.updateMovie = (req, res, next) => {
-  const movieId = req.params.movieId;
+  if (!req.file) {
+    const error = new Error('No image provided.');
+    error.statusCode = 422;
+    throw error;
+  }
+
+  const movieId = req.params.id;
 
   updatedTitle = req.body.title;
-  updatedCover = req.body.cover;
+  updatedCover = req.file.path;
   updatedDescription = req.body.description;
   updatedGenres = req.body.genres;
   updatedActors = req.body.actors;
@@ -102,9 +112,8 @@ exports.updateMovie = (req, res, next) => {
       next(err);
     });
 };
-
 exports.deleteMovie = (req, res, next) => {
-  const movieId = req.params.movieId;
+  const movieId = req.params.id;
   Movie.findById(movieId)
     .then(movie => {
       if (!movie) {
