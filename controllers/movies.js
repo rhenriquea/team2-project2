@@ -2,6 +2,8 @@ const Movie = require('../models/movie');
 var ObjectId = require('mongodb').ObjectID;
 const path = require('path');
 const fs = require('fs');
+
+
 //get all movies
 exports.getMovies = async (req, res) => {
   const movies = await Movie.find();
