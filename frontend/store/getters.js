@@ -5,4 +5,5 @@ export default {
   showSuccessMessage: (state) => state.showSuccessMessage || false,
   successMessage: (state) => state.successMessage || 'Success',
   getError: (state) => state.error || null,
+  getUser: (state) => state.user || null,
 }

@@ -50,7 +50,7 @@ exports.postMovie = async (req, res, next) => {
   }
 
   const { title, description, genres, actors, rating, year } = req.body;
-  const cover = req.file.path;
+  const cover = req.file.path.replace(/ /g, '');
 
   const movie = new Movie({
     title,
