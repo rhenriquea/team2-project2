@@ -1,5 +1,5 @@
 <template>
-  <v-card dark max-width="374" outlined elevation="2">
+  <v-card dark outlined elevation="2">
     <v-img height="250" :src="coverURL"></v-img>
 
     <v-card-title>{{ movie.title }}</v-card-title>

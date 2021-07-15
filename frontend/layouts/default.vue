@@ -16,6 +16,7 @@
               max-width="50vw"
               outlined
               color="red darken-4"
+              z-index="10"
             >
               <v-list-item v-if="errorObj" three-line>
                 <v-list-item-content>
@@ -31,6 +32,14 @@
                   </v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
+
+              <v-card-actions>
+                <v-btn
+                  text
+                  @click="$store.commit('SET_SHOW_ERROR_MESSAGE', false)"
+                  >Close</v-btn
+                >
+              </v-card-actions>
             </v-card>
           </v-overlay>
           <!--  EOF Global Overlay Error Message -->

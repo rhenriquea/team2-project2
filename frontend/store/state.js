@@ -5,5 +5,6 @@ export default function setState() {
     showSuccessMessage: false,
     error: null,
     successMessage: '',
+    user: null,
   }
 }

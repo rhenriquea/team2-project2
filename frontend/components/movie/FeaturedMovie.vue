@@ -7,7 +7,12 @@
       </v-btn>
 
       <!-- DELETE OVERLAY -->
-      <v-overlay :absolute="absolute" :value="overlay" opacity="0.8">
+      <v-overlay
+        :absolute="absolute"
+        :value="overlay"
+        opacity="0.8"
+        z-index="2"
+      >
         <v-card class="mx-auto" max-width="50vw" outlined>
           <v-list-item three-line>
             <v-list-item-content>
@@ -22,7 +27,7 @@
             </v-list-item-content>
 
             <v-avatar class="ma-3" size="125" tile>
-              <v-img :src="movie.cover"></v-img>
+              <v-img :src="coverURL"></v-img>
             </v-avatar>
           </v-list-item>
 
@@ -90,7 +95,9 @@
               </v-row>
             </v-card-text>
 
-            <v-card-actions v-if="isAuthenticated">
+            <v-card-actions
+              v-if="isAuthenticated && movie.creator === getUser.id"
+            >
               <v-btn color="primary" outlined :to="`admin/movie/${movie._id}`">
                 <v-icon left dark> mdi-pencil </v-icon> Edit</v-btn
               >
@@ -130,11 +137,12 @@ export default {
       return description
     },
     coverURL() {
-      return `${process.env.BASE_URL || 'https://moovp2.herokuapp.com'}/${
-        this.movie.cover
-      }`
+      let url = this.movie.cover.split('/')
+      url = `${url[0]}/${encodeURIComponent(url[1])}`
+
+      return `${process.env.BASE_URL || 'https://moovp2.herokuapp.com'}/${url}`
     },
-    ...mapGetters(['isAuthenticated']),
+    ...mapGetters(['isAuthenticated', 'getUser']),
   },
   methods: {
     deleteOverlay() {

@@ -3,7 +3,7 @@
     <AuthForm @submit="submit" />
     <div class="d-flex justify-center">
       <p>
-        You need to <nuxt-link to="/auth/signup">Register</nuxt-link> to use the
+        You need to <nuxt-link to="/signup">Register</nuxt-link> to use the
         system
       </p>
     </div>
@@ -21,8 +21,12 @@ export default {
   methods: {
     async submit(payload) {
       try {
-        const { token } = await this.$axios.$post('/api/v1/auth/login', payload)
+        const { token, user } = await this.$axios.$post(
+          '/api/v1/auth/login',
+          payload
+        )
         this.$store.dispatch('setJWTToken', { token })
+        this.$store.dispatch('setUser', { user })
         this.$store.dispatch('showSuccessMessage', 'Logged in!')
         this.$router.push('/')
       } catch (e) {

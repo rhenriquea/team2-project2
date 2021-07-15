@@ -3,6 +3,16 @@ export default {
     const jwtToken = token ? `Bearer ${token}` : ''
     state.jwt = jwtToken
   },
+  SET_USER(state, { user }) {
+    const logged = { id: null, name: null }
+
+    if (user) {
+      logged.id = user.id
+      logged.name = user.name
+    }
+
+    state.user = logged
+  },
   SET_ERROR(state, error) {
     state.error = error
   },
